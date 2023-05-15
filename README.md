@@ -52,6 +52,8 @@ module-assistant auto-install gpib-modules-source
 You will need to create the configuration file. This is the configuration file created for my setup:
 
 root@raspberrypi:~# cat /usr/etc/gpib.conf 
+
+```
 interface {
 	minor = 0			/* board index, minor = 0 uses /dev/gpib0, minor = 1 uses /dev/gpib1, etc. */
 	board_type = "gpib_bitbang"	/* name of the driver */
@@ -105,6 +107,7 @@ device {
         set-reos = no
         set-bin = no
 }
+```
 
 This is the corresponding test setup:
 6.png
@@ -118,11 +121,13 @@ At this point you can either use the ibtest and ibterm standard tools or write y
 # Writing
 gpibtest.py:
 
+```python
 import gpib
 
 con=gpib.dev(0,1)
 
 gpib.write(con,'A1B23456')
+```
 
 Running:
 
@@ -167,6 +172,7 @@ while(i<10):
 # Diode characterization example
 For a more complex example we convert  the Diode characterization example from the Keysight E364xA Dual Output DC Power Supplies User’s and Service Guide  to Python -
 diode.py:
+
 ```python
 import gpib
 import time
