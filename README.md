@@ -1,6 +1,6 @@
 # The gpib4pi - GPIB for Raspberry Pi hat
 
-#Introduction
+# Introduction
 We wanted to manage instruments with GPIB interface from a Raspberry Pi. We also wanted a board that had an opensource KiCAD project that we can modify and produce ourselves when needed.
 We decided to base the design on the pinout already supported in the gpib_bitbang.ko driver part of the linux-gpib project and the schematics of a board that supports that pinout - http://elektronomikon.org (if you have one of these boards you can use them too)
 However since they did not provide KiCAD design files and BOM for the production of PCB we designed one in KiCAD and published it https://github.com/lightside-instruments/gpib4pi . Feel free to either produce it yourself or buy it on Amazon https://www.amazon.com/dp/B0BY32HH4G or from our webstore - https://lightside-instruments.com/product/gpib4pi
@@ -10,7 +10,7 @@ However since they did not provide KiCAD design files and BOM for the production
     Pull-up and pull-down SMD resistors matching the IEEE standard values instead of slightly deviating throug-hole arrays present on the elektromikron board
     Complete board design and BOM not only schematic
 
-#Installation
+# Installation
 I started off with a default image (2022-01-28-raspios-bullseye-armhf-lite.img different one will likely work too) on the Raspberry Zero W (or other Raspberry Pi 2-4). Create empty file named ssh in the 'boot' partition to enable ssh. Boot and log in as root. Configure internet connectivity. Follow these steps:
 
 apt-get -y update
@@ -115,7 +115,7 @@ gpib_config
 
 * if you are using the older gpib4pi-1.1 board add the board_id kernel module parameter board_id=gpib4pi-1.1 value e.g. modprobe gpib_bitbang board_id=gpib4pi-1.1
 At this point you can either use the ibtest and ibterm standard tools or write your own programs.
-Writing
+# Writing
 gpibtest.py:
 
 import gpib
@@ -164,10 +164,10 @@ while(i<10):
         time.sleep(0.1)
         i=i+1
 
-Diode characterization example
+# Diode characterization example
 For a more complex example we convert  the Diode characterization example from the Keysight E364xA Dual Output DC Power Supplies User’s and Service Guide  to Python -
 diode.py:
-
+```python
 import gpib
 import time
 
@@ -207,7 +207,7 @@ while(voltage<0.8001):
     print("%.3f %6.4f\n"%(voltage, current))
 
 gpib.write(con,'Output off\n') # Turn output off
-
+```
 Running the program:
 
 pi@raspberrypi:~ $ sudo python diode.py 
@@ -240,7 +240,7 @@ Voltage Current
 
 pi@raspberrypi:~ $
 
-Oscilloscope Waveform Capture (DL1540L)
+# Oscilloscope Waveform Capture (DL1540L)
 oscilloscope.py:
 
 import sys
@@ -311,5 +311,5 @@ read_waveform(2)
 read_waveform(3)
 read_waveform(4)
 
-Features not tested
+# Features not tested
 Event notification using SRQ event https://www.keysight.com/zz/en/lib/resources/training-materials/using-srq-events.html were not tested.
