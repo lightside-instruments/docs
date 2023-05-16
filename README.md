@@ -263,8 +263,9 @@ pi@raspberrypi:~ $
 ```
 
 # Oscilloscope Waveform Capture (DL1540L)
-oscilloscope.py:
+[oscilloscope.py](files/oscilloscope.py):
 
+```
 import sys
 import gpib
 import time
@@ -332,6 +333,7 @@ read_waveform(1)
 read_waveform(2)
 read_waveform(3)
 read_waveform(4)
+```
 
 # Features not tested
 Event notification using SRQ event https://www.keysight.com/zz/en/lib/resources/training-materials/using-srq-events.html were not tested.
