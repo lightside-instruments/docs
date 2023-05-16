@@ -1,5 +1,5 @@
 # The gpib4pi - GPIB for Raspberry Pi hat
-![Title](test-setup.png)
+![Title](title.png)
 
 # Introduction
 We wanted to manage instruments with GPIB interface from a Raspberry Pi. We also wanted a board that had an opensource KiCAD project that we can modify and produce ourselves when needed.
@@ -54,7 +54,7 @@ module-assistant auto-install gpib-modules-source
 
 You will need to create the configuration file. This is the configuration file created for my setup:
 
-[/usr/etc/gpib.conf](files/gpib.conf):
+[/usr/etc/gpib.conf](gpib.conf):
 
 ```
 interface {
@@ -124,7 +124,7 @@ gpib_config
 * if you are using the older gpib4pi-1.1 board add the board_id kernel module parameter board_id=gpib4pi-1.1 value e.g. modprobe gpib_bitbang board_id=gpib4pi-1.1
 At this point you can either use the ibtest and ibterm standard tools or write your own programs.
 # Writing
-[gpibtest.py](files/gpibtest.py):
+[gpibtest.py](gpibtest.py):
 
 ```python
 import gpib
@@ -143,7 +143,7 @@ python gpibtest.py
 This connects channel A1 to C1 of the classic HP 59306A Relay Actuator while the remaining C channels are connected to their B counterpart.
 Same in C.
 
-[gpibtest.c](files/gpibtest.c):
+[gpibtest.c](gpibtest.c):
 
 ```C
 #include <gpib/ib.h>
@@ -164,7 +164,7 @@ gcc gpibtest.c -lgpib -o gpibtest
 ```
 
 Here is the script used to produce the video enabling A<->C switch connections for 1, 2 and 3 in a loop.
-[gpibtest-loop.py](files/gpibtest-loop.py):
+[gpibtest-loop.py](gpibtest-loop.py):
 
 ```python
 import gpib
@@ -186,7 +186,7 @@ while(i<10):
 
 # Diode characterization example
 For a more complex example we convert  the Diode characterization example from the Keysight E364xA Dual Output DC Power Supplies User’s and Service Guide  to Python -
-[diode.py](files/diode.py):
+[diode.py](diode.py):
 
 ```python
 import gpib
@@ -264,7 +264,7 @@ pi@raspberrypi:~ $
 ```
 
 # Oscilloscope Waveform Capture (DL1540L)
-[oscilloscope.py](files/oscilloscope.py):
+[oscilloscope.py](oscilloscope.py):
 
 ```python
 import sys
