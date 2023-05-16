@@ -53,7 +53,7 @@ module-assistant auto-install gpib-modules-source
 
 You will need to create the configuration file. This is the configuration file created for my setup:
 
-/usr/etc/gpib.conf:
+[/usr/etc/gpib.conf](files/gpib.conf):
 
 ```
 interface {
