@@ -144,7 +144,7 @@ Same in C.
 
 [gpibtest.c](files/gpibtest.c):
 
-```
+```C
 #include <gpib/ib.h>
 
 int main() {
@@ -163,9 +163,9 @@ gcc gpibtest.c -lgpib -o gpibtest
 ```
 
 Here is the script used to produce the video enabling A<->C switch connections for 1, 2 and 3 in a loop.
-[gpibtest-loop.sh](files/gpibtest-loop.sh):
+[gpibtest-loop.py](files/gpibtest-loop.py):
 
-```
+```python
 import gpib
 import time
 
@@ -265,7 +265,7 @@ pi@raspberrypi:~ $
 # Oscilloscope Waveform Capture (DL1540L)
 [oscilloscope.py](files/oscilloscope.py):
 
-```
+```python
 import sys
 import gpib
 import time
