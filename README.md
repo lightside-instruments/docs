@@ -1,5 +1,5 @@
 # The gpib4pi - GPIB for Raspberry Pi hat
-![Title](test-setup.png)
+![Title](files/title.png)
 
 # Introduction
 We wanted to manage instruments with GPIB interface from a Raspberry Pi. We also wanted a board that had an opensource KiCAD project that we can modify and produce ourselves when needed.
@@ -113,7 +113,7 @@ device {
 ```
 
 This is the corresponding test setup:
-![Test Setup](test-setup.png)
+![Test Setup](files/test-setup.png)
 Now you can load the module and load the configuration:
 
 ```
