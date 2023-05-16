@@ -6,13 +6,14 @@ We decided to base the design on the pinout already supported in the gpib_bitban
 However since they did not provide KiCAD design files and BOM for the production of PCB we designed one in KiCAD and published it https://github.com/lightside-instruments/gpib4pi . Feel free to either produce it yourself or buy it on Amazon https://www.amazon.com/dp/B0BY32HH4G or from our webstore - https://lightside-instruments.com/product/gpib4pi
 3 improvements to the original elektromikron design:
 
-    Mounting holes for Raspberry Pi Zero form factor control boards
-    Pull-up and pull-down SMD resistors matching the IEEE standard values instead of slightly deviating throug-hole arrays present on the elektromikron board
-    Complete board design and BOM not only schematic
+* Mounting holes for Raspberry Pi Zero form factor control boards
+* Pull-up and pull-down SMD resistors matching the IEEE standard values instead of slightly deviating throug-hole arrays present on the elektromikron board
+* Complete board design and BOM not only schematic
 
 # Installation
 I started off with a default image (2022-01-28-raspios-bullseye-armhf-lite.img different one will likely work too) on the Raspberry Zero W (or other Raspberry Pi 2-4). Create empty file named ssh in the 'boot' partition to enable ssh. Boot and log in as root. Configure internet connectivity. Follow these steps:
 
+```
 apt-get -y update
 apt-get -y upgrade
 apt-get -y install git
@@ -48,10 +49,11 @@ apt-get install module-assistant
 apt-get install raspberrypi-kernel-headers
 
 module-assistant auto-install gpib-modules-source
+```
 
 You will need to create the configuration file. This is the configuration file created for my setup:
 
-root@raspberrypi:~# cat /usr/etc/gpib.conf 
+/usr/etc/gpib.conf:
 
 ```
 interface {
@@ -113,13 +115,15 @@ This is the corresponding test setup:
 6.png
 Now you can load the module and load the configuration:
 
+```
 modprobe gpib_bitbang
 gpib_config
+```
 
 * if you are using the older gpib4pi-1.1 board add the board_id kernel module parameter board_id=gpib4pi-1.1 value e.g. modprobe gpib_bitbang board_id=gpib4pi-1.1
 At this point you can either use the ibtest and ibterm standard tools or write your own programs.
 # Writing
-gpibtest.py:
+[gpibtest.py](files/gpibtest.py):
 
 ```python
 import gpib
@@ -131,11 +135,16 @@ gpib.write(con,'A1B23456')
 
 Running:
 
+```
 python gpibtest.py
+```
 
 This connects channel A1 to C1 of the classic HP 59306A Relay Actuator while the remaining C channels are connected to their B counterpart.
-Same in C. gpibtest.c:
+Same in C.
 
+[gpibtest.c](files/gpibtest.c):
+
+```
 #include <gpib/ib.h>
 
 int main() {
@@ -144,15 +153,19 @@ int main() {
     dev=ibdev(0,1,0,T3s,0,0);
     ibwrt(dev,"A1B23456",8);
 }
+```
 
 Running:
 
+```
 gcc gpibtest.c -lgpib -o gpibtest
 ./gpibtest
+```
 
 Here is the script used to produce the video enabling A<->C switch connections for 1, 2 and 3 in a loop.
-gpibtest-loop.sh:
+[gpibtest-loop.sh](files/gpibtest-loop.sh):
 
+```
 import gpib
 import time
 
@@ -168,10 +181,11 @@ while(i<10):
         gpib.write(con,'A3B2')
         time.sleep(0.1)
         i=i+1
+```
 
 # Diode characterization example
 For a more complex example we convert  the Diode characterization example from the Keysight E364xA Dual Output DC Power Supplies User’s and Service Guide  to Python -
-diode.py:
+[diode.py](files/diode.py):
 
 ```python
 import gpib
@@ -216,6 +230,7 @@ gpib.write(con,'Output off\n') # Turn output off
 ```
 Running the program:
 
+```
 pi@raspberrypi:~ $ sudo python diode.py 
 Instrument identification string:
     Agilent Technologies,E3647A,0,1.7-5.0-1.0
@@ -245,6 +260,7 @@ Voltage Current
 0.820 0.0301
 
 pi@raspberrypi:~ $
+```
 
 # Oscilloscope Waveform Capture (DL1540L)
 oscilloscope.py:
