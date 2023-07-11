@@ -1,5 +1,5 @@
-gpib4pi-guide (1.0) bullseye; urgency=medium
+capturing-ethernet-frame-with-scope (1.0) bullseye; urgency=medium
 
   * Initial release
 
- -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Tue, 16 May 2023 03:19:25 +0200
+ -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Tue, 11 Jul 2023 13:12:46 +0200
