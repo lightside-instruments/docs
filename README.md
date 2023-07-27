@@ -14,13 +14,13 @@ This document describes method for capturing Ethernet (10BASE-T) frame with osci
 * decoding of the manchester encoded frame data
 * printing frame data upon end of frame detection to standard output
 
-#Generating frames
+# Generating frames
 You can generate repeatable frame of minimal size that does not change its contents and preferably is sent out periodically. The bellow command line tool does that with 10 ms intervals and the frame sent is an :
 ```
 sudo traffic-generator --interface-name=eth0 --frame-size=64 --interframe-gap=12436  --interface-speed=10000000 --frame-data="FFFFFFFFFFFFE45F01E3FE7208060001080006040001E45F01E3FE720A0000030000000000000A00000200000000000000000000000000000000000084919005"
 ```
 
-#Validating the frame is actually sent with tcpdump
+# Validating the frame is actually sent with tcpdump
 
 ```
 sudo tcpdump -i enx180f76faabfe
@@ -31,7 +31,7 @@ listening on enx180f76faabfe, link-type EN10MB (Ethernet), snapshot length 26214
 ...
 ```
 
-#Capturing with python script using linux-gpib (e.g. gpib4pi)
+# Capturing with python script using linux-gpib (e.g. gpib4pi)
 
 The following command line tool (sources provided) calls do the specified steps:
 
@@ -65,7 +65,7 @@ AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA6A96A69AA6966AA
 
 To be continued ...
 
-#Relevant links:
+# Relevant links:
 
 * https://www.iol.unh.edu/sites/default/files/knowledgebase/ethernet/10basetmau.pdf
 * https://www.tek.com/en/documents/application-note/troubleshooting-ethernet-problems-your-oscilloscope

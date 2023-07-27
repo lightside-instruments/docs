@@ -1,3 +1,10 @@
+capturing-ethernet-frame-with-scope (1.2) bullseye; urgency=medium
+
+  * Fixed markdown syntax error caused by missing space in section titles
+  * Added missing setup.jpg -> 01/setup.jpg symbolic link
+
+ -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Thu, 27 Jul 2023 15:28:39 +0200
+
 capturing-ethernet-frame-with-scope (1.1) bullseye; urgency=medium
 
   * Added more efficient WORD and BYTE then ASCII oscilloscope.py acquisition command modes
