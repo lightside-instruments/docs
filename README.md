@@ -33,6 +33,8 @@ listening on enx180f76faabfe, link-type EN10MB (Ethernet), snapshot length 26214
 
 # Capturing with python script using linux-gpib (e.g. gpib4pi)
 
+![GPIB](01/gpib.jpg)
+
 The following command line tool (sources provided) calls do the specified steps:
 
 ```

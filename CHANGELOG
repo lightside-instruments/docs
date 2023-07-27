@@ -1,3 +1,9 @@
+capturing-ethernet-frame-with-scope (1.4) UNRELEASED; urgency=medium
+
+  * Added photo of the gpib4pi adapter
+
+ -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Thu, 27 Jul 2023 16:25:33 +0200
+
 capturing-ethernet-frame-with-scope (1.3) bullseye; urgency=medium
 
   * Replaced the title image link setup.jpg -> 01/setup.jpg since github renderer does not handle symbolic links
