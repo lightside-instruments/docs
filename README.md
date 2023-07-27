@@ -1,5 +1,5 @@
 # Capturing Ethernet Frame with Scope
-![Title](setup.jpg)
+![Title](01/setup.jpg)
 
 # Introduction
 This document describes method for capturing Ethernet (10BASE-T) frame with oscilloscope. The process described has these steps:
