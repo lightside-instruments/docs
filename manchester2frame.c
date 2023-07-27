@@ -46,8 +46,8 @@ int is_idle_to_start_of_idle(unsigned int offset, uint64_t fifo)
 
 int is_idle_to_high(unsigned int offset, uint64_t fifo)
 {
-    if(((fifo<<offset) & 0xFE00000000000000)==0xFE00000000000000) {
-    	/* >7 1s */
+    if(((fifo<<offset) & 0xFFE0000000000000)==0xFFE0000000000000) {
+    	/* >11 1s */
         return 1;
     } else {
         return 0;
@@ -56,14 +56,11 @@ int is_idle_to_high(unsigned int offset, uint64_t fifo)
     return 0;
 }
 
+#define DELTA 5
 
 int is_high_to_low(unsigned int offset, uint64_t fifo)
 {
-#if 1
-    if(bit(offset-5, fifo) && !bit(offset+5, fifo)) {
-#else
-    if(!bit(offset+15,fifo)) {
-#endif
+    if(bit(offset-DELTA, fifo) && !bit(offset+DELTA, fifo)) {
     	return 1;
     } else {
         return 0;
@@ -71,11 +68,7 @@ int is_high_to_low(unsigned int offset, uint64_t fifo)
 }
 int is_high_to_high(unsigned int offset, uint64_t fifo)
 {
-#if 1
-    if(!bit(offset-5, fifo) && bit(offset+5, fifo)) {
-#else
-    if(bit(offset+15,fifo)) {
-#endif
+    if(!bit(offset-DELTA, fifo) && bit(offset+DELTA, fifo)) {
     	return 1;
     } else {
         return 0;
@@ -84,7 +77,7 @@ int is_high_to_high(unsigned int offset, uint64_t fifo)
 }
 int is_high_to_start_of_idle(unsigned int offset, uint64_t fifo)
 {
-    if(bit(offset-5, fifo) && bit(offset+5, fifo)) {
+    if(bit(offset-DELTA, fifo) && bit(offset+DELTA, fifo)) {
     	return 1;
     } else {
         return 0;
@@ -94,11 +87,7 @@ int is_high_to_start_of_idle(unsigned int offset, uint64_t fifo)
 
 int is_low_to_low(unsigned int offset, uint64_t fifo)
 {
-#if 1
-    if(bit(offset-5, fifo) && !bit(offset+5, fifo)) {
-#else
-    if(!bit(offset+15,fifo)) {
-#endif
+    if(bit(offset-DELTA, fifo) && !bit(offset+DELTA, fifo)) {
     	return 1;
     } else {
         return 0;
@@ -106,11 +95,7 @@ int is_low_to_low(unsigned int offset, uint64_t fifo)
 }
 int is_low_to_high(unsigned int offset, uint64_t fifo)
 {
-#if 1
-    if(!bit(offset-5, fifo) && bit(offset+5, fifo)) {
-#else
-    if(bit(offset+15,fifo)) {
-#endif
+    if(!bit(offset-DELTA, fifo) && bit(offset+DELTA, fifo)) {
     	return 1;
     } else {
         return 0;
@@ -118,7 +103,7 @@ int is_low_to_high(unsigned int offset, uint64_t fifo)
 }
 int is_low_to_start_of_idle(unsigned int offset, uint64_t fifo)
 {
-    if(((fifo<<(offset+5)) & 0xFFFFF00000000000)==0xFFFFF00000000000) {
+    if(((fifo<<(offset+DELTA)) & 0xFFFFF00000000000)==0xFFFFF00000000000) {
         return 1;
     } else {
         return 0;
@@ -156,10 +141,10 @@ unsigned int state_machine(uint32_t samples)
     	for(i=0;i<20;i++) {
             if(is_idle_to_start_of_idle(i+origin,fifo)) {
                 state=START_OF_IDLE;
-                offset=origin+i-3;
+                offset=origin+i;
             } else if(is_idle_to_high(i+origin,fifo)) {
                 state=HIGH;
-                offset=origin+i-3;
+                offset=origin+i;
             }
             if(state!=IDLE) {
                 break;
@@ -205,6 +190,7 @@ int main(int argc, char** argv)
     unsigned int bits_count;
     uint8_t octet;
     uint8_t frame[1530];
+    int sfd_delimeter = 0;
     FILE* f;
 
     if(argc==1) {
@@ -222,8 +208,9 @@ int main(int argc, char** argv)
             state = state_machine(samples);
             printf("[%d] state=%d\n", i, state);
             if(prev==IDLE) {
+                sfd_delimeter = 0;
                 if(state==HIGH) {
-#if 1
+#if 0
                     /* Raspberry Pi 4B hack - it sends 2 bits short of the complete preamble sequence 0x555555555555 */
                     bits_count=3;
                     octet=0xA8;
@@ -234,6 +221,25 @@ int main(int argc, char** argv)
                 }
             } else if(prev==HIGH || prev==LOW) {
                 if(state==HIGH || state==LOW) {
+#if 1
+//lost initial preamble bits hack
+                    if(bits_count>24 && bits_count<63 && !sfd_delimeter) {
+                        if(prev==HIGH && state==HIGH) {
+                            sfd_delimeter = 1;
+                            frame[0]=0x55;
+                            frame[1]=0x55;
+                            frame[2]=0x55;
+                            frame[3]=0x55;
+                            frame[4]=0x55;
+                            frame[5]=0x55;
+                            frame[6]=0x55;
+                            octet = 0xD5;
+                            octet = octet<<1;
+                            printf("Warning: the preamble+sfd bit sequence was %u bits long instead of 64\n",bits_count+1);
+                            bits_count=64-1;
+                        }
+                    }
+#endif
                     octet=octet>>1;
                     if(state==HIGH) {
                         octet|=0x80;

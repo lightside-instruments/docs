@@ -1,3 +1,12 @@
+capturing-ethernet-frame-with-scope (1.1) bullseye; urgency=medium
+
+  * Added more efficient WORD and BYTE then ASCII oscilloscope.py acquisition command modes
+  * Added hysteresis behavior to the ethfilter.m pulsetraine conversion
+  * Added 2 alternatives 01, 02 of sample waveform recordings with setup photos
+  * Added warning message in case of inclomplete preamble e.g. Pi 4B skips 2 bits
+
+ -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Thu, 27 Jul 2023 12:04:29 +0200
+
 capturing-ethernet-frame-with-scope (1.0) bullseye; urgency=medium
 
   * Initial release

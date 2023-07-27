@@ -1,0 +1,26 @@
+           CPU0       
+ 17:      19994  ARMCTRL-level   1 Edge      2000b880.mailbox
+ 18:         75  ARMCTRL-level   2 Edge      VCHIQ doorbell
+ 27:     352844  ARMCTRL-level  35 Edge      timer
+ 34:          0  ARMCTRL-level  42 Edge      vc4
+ 35:          0  ARMCTRL-level  43 Edge      20004000.txp
+ 42:        625  ARMCTRL-level  50 Edge      DMA IRQ
+ 44:       6047  ARMCTRL-level  52 Edge      DMA IRQ
+ 45:          0  ARMCTRL-level  53 Edge      DMA IRQ
+ 53:         10  ARMCTRL-level  61 Edge      ttyS0
+ 56:          1  ARMCTRL-level  64 Edge      dwc_otg, dwc_otg_pcd, dwc_otg_hcd:usb1
+ 57:          0  ARMCTRL-level  65 Edge      vc4 hvs
+ 64:          0  ARMCTRL-level  72 Edge      vc4 hdmi cec
+ 66:          0  ARMCTRL-level  74 Edge      vc4 crtc
+ 69:          0  ARMCTRL-level  77 Edge      vc4 crtc
+ 70:          0  ARMCTRL-level  78 Edge      vc4 crtc
+ 77:          0  ARMCTRL-level  85 Edge      20805000.i2c
+ 80:       2392  ARMCTRL-level  88 Edge      mmc0
+ 81:       4307  ARMCTRL-level  89 Edge      uart-pl011
+ 86:      50736  ARMCTRL-level  94 Edge      mmc1
+160:       9852  pinctrl-bcm2835  24 Edge      gpib_bitbang_NRFD
+161:       9877  pinctrl-bcm2835  23 Edge      gpib_bitbang_NDAC
+162:    3545043  pinctrl-bcm2835  10 Edge      gpib_bitbang_DAV
+163:          0  pinctrl-bcm2835  11 Edge      gpib_bitbang_SRQ
+FIQ:              usb_fiq
+Err:          0

@@ -1,8 +1,15 @@
+# Communication interface User's Manual https://cdn.tmi.yokogawa.com/IM701530-11E.pdf
+
 import sys
 import gpib
 import time
 import os
 import datetime
+
+def cmd_binary(con, cmd):
+        gpib.write(con,cmd)
+        c = gpib.read(con,1024*1024)
+        return c
 
 def cmd(con, cmd):
         result = ""
@@ -24,10 +31,10 @@ def disable_channel(channel):
         print (reply)
         gpib.write(con,':CHAN'+str(channel)+':MODE OFF\n')
 
-def read_waveform(trace) :
+def read_waveform(trace, type="ASCII") :
         gpib.write(con, 'WAVeform:TRACE '+ str(trace) + '\n')
 
-        gpib.write(con, 'WAVeform:FORMAT ASCII\n')
+        gpib.write(con, 'WAVeform:FORMAT %s\n'%(type))
 
         reply=cmd(con, "WAVeform:START?\n")
         print(reply)
@@ -49,12 +56,38 @@ def read_waveform(trace) :
         start = time.time()
 
 
-        reply=cmd(con, "WAVeform:SEND?\n")
-        print(reply)
+        if(type=="ASCII"):
+            reply=cmd(con, "WAVeform:SEND?\n")
+        else:
+            c=cmd_binary(con, "WAVeform:SEND?\n")
 
         end = time.time()
-        print("Read %d bytes in %lf seconds" %(len(reply), (end - start)))
 
+        if(type=="BYTE"):
+            reply=""
+            for byte in c:
+                val = byte*1.0/25;
+                if(reply==""):
+                    reply = str(val)
+                else:
+                    reply = reply + "," + str(val)
+        elif(type=="WORD"):
+            reply=""
+            for i in range(0,int(len(c)/2)):
+                val = (c[2*i]*256+c[2*i+1])*1.0/3200
+                if(reply==""):
+                    reply = str(val);
+                else:
+                    reply = reply + "," + str(val)
+
+        if(type=="ASCII"):
+            print("Read %d bytes in %lf seconds" %(len(reply), (end - start)))
+            print(reply)
+        else:
+            print("Read %d bytes in %lf seconds" %(len(c), (end - start)))
+            print(c)
+
+        
         float_array = [float(i) for i in reply.split(',')]
         print("ch%d=%s"%(trace,str(float_array)))
 
@@ -99,7 +132,7 @@ print (reply)
 gpib.write(con,'TRIGger:MODE SINGLE\n')
 gpib.write(con,'TRIGger:POSITION -3\n')
 gpib.write(con,'TRIGGER:SIMPLE:EDGE:SLOPE FALL\n')
-gpib.write(con,'TRIGger:SOURce:CHANnel1:LEVel -1V\n')
+gpib.write(con,'TRIGger:SOURce:CHANnel1:LEVel -0.5V\n')
 gpib.write(con,'TRIGger:SOURce:COUPling AC\n')
 
 reply=cmd(con, 'TRIGger?\n')
@@ -153,7 +186,14 @@ reply=cmd(con, "WAVeform:TRIGger?\n")
 print(reply)
 
 
-read_waveform(1)
-read_waveform(2)
+os.system("cat /proc/interrupts > interrupts-before.txt")
+read_waveform(1, type="ASCII")
+os.system("cat /proc/interrupts > interrupts-after.txt")
+os.system("diff interrups-before.txt interrupts-after.txt")
+read_waveform(1, type="BYTE")
+read_waveform(1, type="WORD")
+read_waveform(2, type="ASCII")
+read_waveform(2, type="BYTE")
+read_waveform(2, type="WORD")
 #read_waveform(3)
 #read_waveform(4)
