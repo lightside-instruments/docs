@@ -3,4 +3,4 @@
 
 
 
-![Title](title.png)
+![Title](title.jpg)
