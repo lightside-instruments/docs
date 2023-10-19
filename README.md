@@ -4,3 +4,5 @@
 
 
 ![Title](title.jpg)
+![Setup](lab/setup.jpg)
+
