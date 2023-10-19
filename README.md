@@ -5,4 +5,4 @@
 
 ![Title](title.jpg)
 ![Setup](lab/setup.jpg)
-
+![Network Programmability Kit](network-programmability-kit.gif)
