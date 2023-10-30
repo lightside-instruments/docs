@@ -1,7 +1,7 @@
 # How it started
 Some mail hosting servidces like Amazons WorkMail are substituting the ReplyTo mail address with a dynamic one. This is not acceptable for some receiving mail servers e.g. ietf.org
 
-So this is how you can send a mail without switching your subscription:
+So this is how you can send a mail from the command line without relay SMTP server without switching your subscription. And here is the result - https://mailarchive.ietf.org/arch/msg/bmwg/PrMYslnP9y7TPXtfBJ-QD-6bsTY :
 
 Generate keys - notice the '-traditional' parameter that fixes a bug
 ```

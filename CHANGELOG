@@ -1,5 +1,11 @@
-docs-template (1.0) bullseye; urgency=medium
+docs-sending-emails-without-smtp-relay-python (1.1) jammy; urgency=medium
+
+  * Added link to bmwg@ietf.org archive
+
+ -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Tue, 31 Oct 2023 00:46:39 +0100
+
+docs-sending-emails-without-smtp-relay-python (1.0) jammy; urgency=medium
 
   * Initial release.
 
- -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Tue, 02 May 2023 17:34:31 +0200
+ -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Tue, 31 Oct 2023 00:46:35 +0100
