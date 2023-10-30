@@ -1,0 +1,142 @@
+Hi,
+
+In this version of the draft I have removed the 
+traffic-generator-ingress and traffic-analyzer-egress containers. The 
+reverse direction can be implemented with virtual interfaces connected 
+to the target interface reusing the simpler model definition.
+
+Here are the current tree diagrams of the modules defined in the draft.
+
+module: ietf-traffic-generator
+   augment /if:interfaces/if:interface:
+     +--rw traffic-generator
+        +--rw (type)?
+        |  +--:(single-stream)
+        |  |  +--rw testframe-type?     identityref
+        |  |  +--rw frame-size          uint32
+        |  |  +--rw frame-data?         string
+        |  |  +--rw interframe-gap      uint32
+        |  |  +--rw interburst-gap?     uint32
+        |  |  +--rw frames-per-burst?   uint32
+        |  |  +--rw modifiers
+        |  |     +--rw modifier* [id]
+        |  |        +--rw id             uint32
+        |  |        +--rw action         identityref
+        |  |        +--rw offset         uint32
+        |  |        +--rw mask           string
+        |  |        +--rw repetitions    uint32
+        |  +--:(multi-stream)
+        |     +--rw streams
+        |        +--rw stream* [id]
+        |           +--rw id                   uint32
+        |           +--rw testframe-type?      identityref
+        |           +--rw frame-size           uint32
+        |           +--rw frame-data?          string
+        |           +--rw interframe-gap       uint32
+        |           +--rw interburst-gap?      uint32
+        |           +--rw frames-per-burst?    uint32
+        |           +--rw frames-per-stream    uint32
+        |           +--rw interstream-gap      uint32
+        |           +--rw modifiers
+        |              +--rw modifier* [id]
+        |                 +--rw id             uint32
+        |                 +--rw action         identityref
+        |                 +--rw offset         uint32
+        |                 +--rw mask           string
+        |                 +--rw repetitions    uint32
+        +--rw realtime-epoch?
+        |        yang:date-and-time {realtime-epoch}?
+        +--rw total-frames?
+
+
+module: ietf-traffic-analyzer
+
+   augment /if:interfaces/if:interface:
+     +--rw traffic-analyzer!
+        +--rw filter! {filter}?
+        |  +--rw type          identityref
+        |  +--rw ether-type?   uint16
+        +--rw capture {capture}?
+        |  +--rw start-trigger
+        |  |  +--rw (start-trigger)?
+        |  |     +--:(frame-index)
+        |  |     |  +--rw frame-index?       uint64
+        |  |     +--:(testframe-index)
+        |  |        +--rw testframe-index?   uint64
+        |  +--rw stop-trigger
+        |     +--rw (stop-trigger)?
+        |        +--:(when-full)
+        |           +--rw when-full?   empty
+        +--ro state
+           +--ro pkts?              yang:counter64
+           +--ro octets?            yang:counter64
+           +--ro idle-octets?       yang:counter64 {idle-octets-counter}?
+           +--ro errors?            yang:counter64
+           +--ro testframe-stats
+           |  +--ro testframe-pkts?    yang:counter64
+           |  +--ro sequence-errors?   yang:counter64
+           |  +--ro payload-errors?    yang:counter64
+           |  +--ro latency
+           |     +--ro samples?   uint64
+           |     +--ro min?       uint64
+           |     +--ro max?       uint64
+           |     +--ro average?   uint64
+           |     +--ro latest?    uint64
+           +--ro capture {capture}?
+              +--ro frame* [sequence-number]
+                 +--ro sequence-number    uint64
+                 +--ro timestamp?         yang:date-and-time
+                 +--ro length?            uint32
+                 +--ro data?              string
+
+The reference running code based on the model is a RFC2544 benchmark 
+implemented in python. Here is a link to the implementation: 
+https://github.com/vlvassilev/rfc2544-benchmark
+
+/Vladimir
+
+
+
+-------- Forwarded Message --------
+Subject: 	[bmwg] I-D Action: draft-ietf-bmwg-network-tester-cfg-03.txt
+Date: 	Sun, 22 Oct 2023 03:17:24 -0700
+From: 	internet-drafts@ietf.org
+Reply-To: 	bmwg@ietf.org
+To: 	i-d-announce@ietf.org
+CC: 	bmwg@ietf.org
+
+
+
+Internet-Draft draft-ietf-bmwg-network-tester-cfg-03.txt is now 
+available. It
+is a work item of the Benchmarking Methodology (BMWG) WG of the IETF.
+
+Title: A YANG Data Model for Network Tester Management
+Author: Vladimir Vassilev
+Name: draft-ietf-bmwg-network-tester-cfg-03.txt
+Pages: 26
+Dates: 2023-10-22
+
+Abstract:
+
+This document introduces new YANG model for use in network
+interconnect testing containing modules of traffic generator and
+traffic analyzer.
+
+The IETF datatracker status page for this Internet-Draft is:
+https://datatracker.ietf.org/doc/draft-ietf-bmwg-network-tester-cfg/
+
+There is also an HTMLized version available at:
+https://datatracker.ietf.org/doc/html/draft-ietf-bmwg-network-tester-cfg-03
+
+A diff from the previous version is available at:
+https://author-tools.ietf.org/iddiff?url2=draft-ietf-bmwg-network-tester-cfg-03
+
+Internet-Drafts are also available by rsync at:
+rsync.ietf.org::internet-drafts
+
+
+_______________________________________________
+bmwg mailing list
+bmwg@ietf.org
+https://www.ietf.org/mailman/listinfo/bmwg
