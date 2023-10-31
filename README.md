@@ -1,4 +1,4 @@
-Some mail hosting services like Amazons WorkMail are substituting the ReplyTo mail address with a dynamic one. This is not acceptable for some receiving mail servers e.g. ietf.org
+Some mail hosting services like Amazons WorkMail are substituting the "Return-Path" mail address with a dynamic one e.g. Return-Path: <0100018b75f9efae-b35a598b-d7ef-408a-a2a8-5fea3b24bf4d-000000@mailfrom.lightside-instruments.com>. This is not acceptable for some receiving mail servers e.g. ietf.org
 
 So this is how you can send a mail from the command line without relay SMTP server without switching your subscription. And here is the result - https://mailarchive.ietf.org/arch/msg/bmwg/PrMYslnP9y7TPXtfBJ-QD-6bsTY :
 

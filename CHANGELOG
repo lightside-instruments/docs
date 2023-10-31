@@ -1,3 +1,9 @@
+sending-emails-without-smtp-relay (1.3) jammy; urgency=medium
+
+  * Replaced ReplyTo with ReturnPath and added example of a dynamic value
+
+ -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Tue, 31 Oct 2023 09:07:45 +0100
+
 sending-emails-without-smtp-relay (1.2) jammy; urgency=medium
 
   * Removed confusing opendkim-genkey command line which does not work on jammy
