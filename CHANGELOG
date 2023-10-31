@@ -1,3 +1,9 @@
+sending-emails-without-smtp-relay (1.2) jammy; urgency=medium
+
+  * Removed confusing opendkim-genkey command line which does not work on jammy
+
+ -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Tue, 31 Oct 2023 08:49:22 +0100
+
 docs-sending-emails-without-smtp-relay-python (1.1) jammy; urgency=medium
 
   * Added link to bmwg@ietf.org archive
