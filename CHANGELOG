@@ -1,3 +1,9 @@
+gpib4pi-guide (2.0) bookworm; urgency=medium
+
+  * Distribution upgrade to bookworm. Single minor issue with build paths fixed in 4.3.5-lsi5
+
+ -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Tue, 12 Dec 2023 02:24:01 +0100
+
 gpib4pi-guide (1.0) bullseye; urgency=medium
 
   * Initial release

@@ -12,13 +12,13 @@ However since they did not provide KiCAD design files and BOM for the production
 * Complete board design and BOM not only schematic
 
 # Installation
-I started off with a default image (2022-01-28-raspios-bullseye-armhf-lite.img different one will likely work too) on the Raspberry Zero W (or other Raspberry Pi 2-4). Create empty file named ssh in the 'boot' partition to enable ssh. Boot and log in as root. Configure internet connectivity. Follow these steps:
+I started off with a default image (2023-12-05-raspios-bookworm-armhf-lite.img) different one will likely work too) on the Raspberry Zero W (or other Raspberry Pi 2-4). Create empty file named ssh in the 'boot' partition to enable ssh. Boot and log in as root. Configure internet connectivity. Follow these steps (N.B. if you are using version older than bookworm use 4.3.5-lsi4 instead of 4.3.5-lsi5):
 
 ```
 apt-get -y update
 apt-get -y upgrade
 apt-get -y install git
-git clone -b debian/4.3.5-lsi4 https://github.com/lightside-instruments/gpib-debian.git gpib
+git clone -b debian/4.3.5-lsi5 https://github.com/lightside-instruments/gpib-debian.git gpib
 rsync -rav gpib/ gpib_4.3.5
 rm -rf gpib_4.3.5/.git
 rm -rf gpib_4.3.5/debian
@@ -31,19 +31,19 @@ cd gpib
 debuild -us -uc
 cd ..
 ls -1 *.deb
-#gpib-modules-source_4.3.5-lsi4_all.deb
-#libgpib-bin-dbgsym_4.3.5-lsi4_armhf.deb
-#libgpib-bin_4.3.5-lsi4_armhf.deb
-#libgpib-dev_4.3.5-lsi4_armhf.deb
-#libgpib-doc_4.3.5-lsi4_all.deb
-#libgpib-perl-dbgsym_4.3.5-lsi4_armhf.deb
-#libgpib-perl_4.3.5-lsi4_armhf.deb
-#libgpib0-dbgsym_4.3.5-lsi4_armhf.deb
-#libgpib0_4.3.5-lsi4_armhf.deb
-#libtcl8.6-gpib-dbgsym_4.3.5-lsi4_armhf.deb
-#libtcl8.6-gpib_4.3.5-lsi4_armhf.deb
-#python3-gpib-dbgsym_4.3.5-lsi4_armhf.deb
-#python3-gpib_4.3.5-lsi4_armhf.deb
+#gpib-modules-source_4.3.5-lsi5_all.deb
+#libgpib-bin-dbgsym_4.3.5-lsi5_armhf.deb
+#libgpib-bin_4.3.5-lsi5_armhf.deb
+#libgpib-dev_4.3.5-lsi5_armhf.deb
+#libgpib-doc_4.3.5-lsi5_all.deb
+#libgpib-perl-dbgsym_4.3.5-lsi5_armhf.deb
+#libgpib-perl_4.3.5-lsi5_armhf.deb
+#libgpib0-dbgsym_4.3.5-lsi5_armhf.deb
+#libgpib0_4.3.5-lsi5_armhf.deb
+#libtcl8.6-gpib-dbgsym_4.3.5-lsi5_armhf.deb
+#libtcl8.6-gpib_4.3.5-lsi5_armhf.deb
+#python3-gpib-dbgsym_4.3.5-lsi5_armhf.deb
+#python3-gpib_4.3.5-lsi5_armhf.deb
 dpkg -i *.deb
 
 apt-get install module-assistant
