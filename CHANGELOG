@@ -1,5 +1,5 @@
-docs-template (1.0) bullseye; urgency=medium
+ice4pi-guide (1.0) bullseye; urgency=medium
 
-  * Initial release.
+  * Initial release
 
- -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Tue, 02 May 2023 17:34:31 +0200
+ -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Tue, 12 Dec 2023 02:24:01 +0100
