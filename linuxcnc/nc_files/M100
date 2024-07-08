@@ -1,0 +1,48 @@
+#! /bin/bash
+
+
+rm /tmp/foo
+touch /tmp/bar
+
+mode=$(halcmd getp halui.mode.is-manual)
+echo $mode
+halcmd setp halui.mode.manual 1
+while [ $mode == 'FALSE' ];do
+sleep 0.1
+mode=$(halcmd getp halui.mode.is-manual)
+echo mode is manual $mode
+done
+halcmd setp halui.mode.manual 0
+
+mode=$(halcmd getp halui.mode.is-joint)
+echo $mode
+halcmd setp halui.mode.joint 1
+while [ $mode == 'FALSE' ];do
+sleep 0.1
+mode=$(halcmd getp halui.mode.is-joint)
+echo mode is joint $mode
+done
+halcmd setp halui.mode.joint 0
+
+mode=$(halcmd getp halui.joint.0.is-homed)
+echo $mode
+halcmd setp halui.joint.0.unhome 1
+while [ $mode == 'TRUE' ];do
+sleep 0.1
+mode=$(halcmd getp halui.joint.0.is-homed)
+echo joint is homed $mode
+done
+halcmd setp halui.joint.0.unhome 0
+
+mode=$(halcmd getp halui.joint.0.is-homed)
+echo $mode
+halcmd setp halui.joint.0.home 1
+while [ $mode == 'FALSE' ];do
+sleep 0.1
+mode=$(halcmd getp halui.joint.0.is-homed)
+echo joint is homed $mode
+done
+halcmd setp halui.joint.0.home 0
+
+exit 0
+
