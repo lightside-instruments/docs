@@ -21,15 +21,18 @@ We made some changes so that GPIOs named PIN11 and PIN36 (check your gpiod pin n
 
 To do this we decided to start the linuxcnc command from /etc/rc.local . And yes there are some special parameters that specify that no GUI is needed and instead a linucncrsh tool with telnet/netcat port interface will be used as cli:
 
-`...
+```
+...
 su cnc -c "linuxcnc /home/cnc/linuxcnc/configs/by_interface.parport.stepper/stepper_mm_sh.ini"
-...`
+...
+```
+
 
 
 Create a command file /home/cnc/cmd.txt:
 
 
-`
+```
 hello EMC batch-command-script 1.0
 set enable EMCTOO
 set verbose on
@@ -42,14 +45,16 @@ set mode mdi
 set mdi g91
 set mdi g0x100
 quit
-`
+```
+
 
 And added a crontab entry:
 
-`
+```
 ...
 * * * * * nc  -N -q 20 localhost 5007 < cmd.txt > /tmp/log.txt
 ...
-`
+```
+
 
 The ./linuxcnc contains a copy of the working /home/cnc/linuxcnc directory. Copy this without changes and your clock will work after a restart.

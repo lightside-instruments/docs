@@ -1,3 +1,9 @@
+docs-linuxcnc-clock (1.1) bookworm; urgency=medium
+
+  * Fixed code block synthax
+
+ -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Tue, 09 Jul 2024 01:41:22 +0200
+
 docs-linuxcnc-clock (1.0) bookworm; urgency=medium
 
   * Initial release.
