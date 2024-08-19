@@ -1,0 +1,21 @@
+NMOS switch
+.include bs870.mod
+.option TEMP=27C
+
+Vpower +12V 0 12
+Vgnd gnd0 0 0
+Vgate in0 gnd0 PULSE (0 3.3 1000p 50p 50p 2000p 5000p)
+
+M1 out0 in0 gnd0 dummy0 bs870 W=10u L=0.18u
+R1 +12V out0 100
+R2 gate0 gnd0 10K
+R3 gate0 in0 1K
+.tran 1p 60000ps
+
+.control
+ run
+ plot in0 out0 gate0
+ plot Vpower#branch Vgate#branch
+.endc
+
+.end
