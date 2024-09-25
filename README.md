@@ -5,12 +5,27 @@ A reference peer for the tested device based on a FPGA instrumented board ice4pi
 It responds to limited set of GPIB operations (read,write,SRQ interrupt sequence etc.) but in a very deterministic way that can be simulated at gate level.
 So testing should provide consistent results and the behavior of the bus should be possible to reproduce.
 
-# Synthesizing and loading the gateware
-TODO
+# GPIB scope acquisition of test sessions
+
+## Synthesizing and loading the gateware
+
+Build and install https://github.com/lightside-instruments/ice4pi-example-i2cslave
+
+## Sending the binary 16bit sampled at 5MHz data over the 1Gb ethernet interface: 
+On ice4pi-gpib device:
+```
+dd if=/dev/zero bs=$((4*1024)) iflag=fullblock | spi-pipe -d /dev/spidev0.1 --blocksize=$((4*1024)) -s 80000000 | nc -l 0.0.0.0 1234
+```
+
+On host(laptop):
+nc 10.0.0.1 1234 | tee /tmp/gpib.bin | hexdump -C
+
 
 # Build and load module
 These instructions are specific for the gpib_bitbang.ko module and the gpib4pi adapter:
 
+
+```
 git clone -b debian/4.3.6-lsi5 https://github.com/lightside-instruments/gpib-debian.git gpib
 cd gpib
 cat debian/patches/backport-gpib-bitbang.patch | patch -p1
@@ -85,11 +100,15 @@ pi@raspberrypi:~/gpib/linux-gpib-kernel $ sudo gpib_config
 
 pi@raspberrypi:~/gpib/linux-gpib-kernel $ 
 
+```
+
 # Building and running testsuite
 
+```
 git clone -b srq https://github.com/lightside-instruments/linux-gpib-test.git linux-gpib-test-srq
 cd linux-gpib-test-srq
 autoreconf -i -f
 ./configure
 make
 make check
+```
