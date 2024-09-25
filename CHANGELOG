@@ -1,4 +1,10 @@
-docs-linux-gpib-testing (1.0) bookworm; urgency=medium
+docs-linux-gpib-testing (1.2) bookworm; urgency=medium
+
+  * Fixed command and link typos
+
+ -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Wed, 25 Sep 2024 14:15:13 +0200
+
+docs-linux-gpib-testing (1.1) bookworm; urgency=medium
 
   * Added instructions of setting up ice4pi-gpib session acquisition scope and reading the data over 1Gb Ethernet
   * Added setup image

@@ -9,7 +9,7 @@ So testing should provide consistent results and the behavior of the bus should 
 
 ## Synthesizing and loading the gateware
 
-Build and install https://github.com/lightside-instruments/ice4pi-example-i2cslave
+Build and install https://github.com/lightside-instruments/ice4pi-example-i2cslave/tree/ice4pi-example-gpib-scope
 
 ## Sending the binary 16bit sampled at 5MHz data over the 1Gb ethernet interface: 
 On ice4pi-gpib device:
@@ -105,8 +105,8 @@ pi@raspberrypi:~/gpib/linux-gpib-kernel $
 # Building and running testsuite
 
 ```
-git clone -b srq https://github.com/lightside-instruments/linux-gpib-test.git linux-gpib-test-srq
-cd linux-gpib-test-srq
+git clone https://github.com/lightside-instruments/linux-gpib-test.git linux-gpib-test
+cd linux-gpib-test
 autoreconf -i -f
 ./configure
 make
