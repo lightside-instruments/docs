@@ -1,6 +1,6 @@
 # Setup
-![Title](setup.jpg)
-
+![Basic setup] (setup.jpg)
+![Rack setup] (setup-rack.jpg)
 A reference peer for the tested device based on a FPGA instrumented board ice4pi-gpib is connected to the tested adapter.
 It responds to limited set of GPIB operations (read,write,SRQ interrupt sequence etc.) but in a very deterministic way that can be simulated at gate level.
 So testing should provide consistent results and the behavior of the bus should be possible to reproduce.
