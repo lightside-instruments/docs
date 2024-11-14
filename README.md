@@ -4,21 +4,24 @@
 # Introduction
 We wanted to manage instruments with GPIB interface from a Raspberry Pi. We also wanted a board that had an opensource KiCAD project that we can modify and produce ourselves when needed.
 We decided to base the design on the pinout already supported in the gpib_bitbang.ko driver part of the linux-gpib project and the schematics of a board that supports that pinout - http://elektronomikon.org (if you have one of these boards you can use them too)
-However since they did not provide KiCAD design files and BOM for the production of PCB we designed one in KiCAD and published it https://github.com/lightside-instruments/gpib4pi . Feel free to either produce it yourself or buy it on Amazon https://www.amazon.com/dp/B0BY32HH4G or from our webstore - https://lightside-instruments.com/product/gpib4pi
-3 improvements to the original elektromikron design:
+
+However since they did not provide KiCAD design files and BOM for the production of PCB we designed one in KiCAD and published it OSHWA UID: NO000003 (https://github.com/lightside-instruments/gpib4pi) . Feel free to either produce it yourself or buy it on Amazon https://www.amazon.com/dp/B0BY32HH4G or from our webstore - https://lightside-instruments.com/product/gpib4pi
+5 improvements to the original elektromikron design:
 
 * Mounting holes for Raspberry Pi Zero form factor control boards
 * Pull-up and pull-down SMD resistors matching the IEEE standard values instead of slightly deviating throug-hole arrays present on the elektromikron board
-* Complete board design and BOM not only schematic
+* Complete board design and BOM not only schematic published as certified OSHWA UID: NO000003 project
+* The boards purchased after 2024-05-01 have 2x M3.5 thumb screws for fastening the board to GPIB ports added to the package. We had to drill the #40-4 original threaded hole part of the Centronix standard to match the GPIB 3.5 mm non-threaded mounting holes.
+* There is a stackable 2x20 connector added to the board package that allows connecting the gpib4pi on top of a Raspberry Pi (in addition to Pi Zero that do not need extra offset)
 
 # Installation
-I started off with a default image (2023-12-05-raspios-bookworm-armhf-lite.img) different one will likely work too) on the Raspberry Zero W (or other Raspberry Pi 2-4). Create empty file named ssh in the 'boot' partition to enable ssh. Boot and log in as root. Configure internet connectivity. Follow these steps (N.B. if you are using version older than bookworm use 4.3.5-lsi4 instead of 4.3.5-lsi5):
+Pi Zero with 32 bit image 2024-10-22-raspios-bookworm-armhf-lite.img.xz was used but the 64 bit image for Pi4 and Pi5 also works. Configure internet connectivity. Follow these steps (N.B. if you are using version older than bookworm use 4.3.5-lsi4 instead of 4.3.6-lsi7):
 
 ```
 apt-get -y update
 apt-get -y upgrade
 apt-get -y install git
-git clone -b debian/4.3.5-lsi5 https://github.com/lightside-instruments/gpib-debian.git gpib
+git clone -b debian/4.3.5-lsi7 https://github.com/lightside-instruments/gpib-debian.git gpib
 rsync -rav gpib/ gpib_4.3.5
 rm -rf gpib_4.3.5/.git
 rm -rf gpib_4.3.5/debian
@@ -31,19 +34,19 @@ cd gpib
 debuild -us -uc
 cd ..
 ls -1 *.deb
-#gpib-modules-source_4.3.5-lsi5_all.deb
-#libgpib-bin-dbgsym_4.3.5-lsi5_armhf.deb
-#libgpib-bin_4.3.5-lsi5_armhf.deb
-#libgpib-dev_4.3.5-lsi5_armhf.deb
-#libgpib-doc_4.3.5-lsi5_all.deb
-#libgpib-perl-dbgsym_4.3.5-lsi5_armhf.deb
-#libgpib-perl_4.3.5-lsi5_armhf.deb
-#libgpib0-dbgsym_4.3.5-lsi5_armhf.deb
-#libgpib0_4.3.5-lsi5_armhf.deb
-#libtcl8.6-gpib-dbgsym_4.3.5-lsi5_armhf.deb
-#libtcl8.6-gpib_4.3.5-lsi5_armhf.deb
-#python3-gpib-dbgsym_4.3.5-lsi5_armhf.deb
-#python3-gpib_4.3.5-lsi5_armhf.deb
+#gpib-modules-source_4.3.5-lsi7_all.deb
+#libgpib-bin-dbgsym_4.3.5-lsi7_armhf.deb
+#libgpib-bin_4.3.5-lsi7_armhf.deb
+#libgpib-dev_4.3.5-lsi7_armhf.deb
+#libgpib-doc_4.3.5-lsi7_all.deb
+#libgpib-perl-dbgsym_4.3.5-lsi7_armhf.deb
+#libgpib-perl_4.3.5-lsi7_armhf.deb
+#libgpib0-dbgsym_4.3.5-lsi7_armhf.deb
+#libgpib0_4.3.5-lsi7_armhf.deb
+#libtcl8.6-gpib-dbgsym_4.3.5-lsi7_armhf.deb
+#libtcl8.6-gpib_4.3.5-lsi7_armhf.deb
+#python3-gpib-dbgsym_4.3.5-lsi7_armhf.deb
+#python3-gpib_4.3.5-lsi7_armhf.deb
 dpkg -i *.deb
 
 apt-get install module-assistant
@@ -57,10 +60,11 @@ You will need to create the configuration file. This is the configuration file c
 [/usr/etc/gpib.conf](gpib.conf):
 
 ```
+root@raspberrypi:~# cat /usr/etc/gpib.conf 
 interface {
 	minor = 0			/* board index, minor = 0 uses /dev/gpib0, minor = 1 uses /dev/gpib1, etc. */
 	board_type = "gpib_bitbang"	/* name of the driver */
-	name = "raspi_gpio_interface"	/* optional name, allows you to get a board descriptor using ibfind() */
+	name = "gpib0"	/* optional name, allows you to get a board descriptor using ibfind() */
 	pad = 0				/* primary address of interface             */
 	sad = 0				/* secondary address of interface           */
 	timeout = T3s			/* timeout for commands */
@@ -80,9 +84,10 @@ interface {
 }
 
 
+
 device {
 	minor = 0
-        name = "relay-actuator-hp-59306a"
+        name = "digital-oscilloscope-yokogawa-dl1540l"
         pad = 1
         sad = 0
 
@@ -102,7 +107,7 @@ device {
 }
 device {
 	minor = 0
-        name = "digital-oscilloscope-yokogawa-dl1540l"
+        name = "relay-actuator-hp-59306a"
         pad = 3
         sad = 0
 
@@ -336,5 +341,8 @@ read_waveform(3)
 read_waveform(4)
 ```
 
-# Features not tested
-Event notification using SRQ event https://www.keysight.com/zz/en/lib/resources/training-materials/using-srq-events.html were not tested.
+# Other features tested
+Event notification using SRQ events were also tested and work. There was a known problem in earlier versions which are solved in 4.3.6-lsi7 version of the linux-gpib packages.
+
+Network access
+Check the Wireless LAN/GPIB gateway with open-source hardware article if you want to start vxi11 server with this setup and run your testcases on any machine with network connectivity to the board.

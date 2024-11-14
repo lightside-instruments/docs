@@ -1,3 +1,17 @@
+gpib4pi-guide (2.2) bookworm; urgency=medium
+
+  * New version 4.3.6-lsi7
+  * Removed unsupported SRQ feature warning
+
+ -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Thu, 14 Nov 2024 11:47:20 +0100
+
+gpib4pi-guide (2.1) bookworm; urgency=medium
+
+  * Added M3.5 thumb screws and  stackable 2x20 connector gpib4pi to featureset
+  * Added OSHWA UID NO000003 reference
+
+ -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Thu, 02 May 2024 11:50:46 +0200
+
 gpib4pi-guide (2.0) bookworm; urgency=medium
 
   * Distribution upgrade to bookworm. Single minor issue with build paths fixed in 4.3.5-lsi5
