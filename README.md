@@ -40,6 +40,7 @@ The following command line tool (sources provided) calls do the specified steps:
 ```
 sudo apt-get install python3 gcc octave-cli
 python3 oscilloscope.py | tee out.txt
+# python3 oscilloscope-pyvisa-yokogawa-dl1540l.py | tee out.txt # alternative usign pyvisa instead of local linux-gpib adapter
 cat out.txt | grep ch1 | head -n 1 > channels.m
 cat out.txt | grep ch2 | head -n 1 >> channels.m
 octave-cli ethfilter.m # uses channels.m and generates signal.bin (sequence of 32 bit little endian integers each 32 bit integer contains 20 binary values (LSB) of the oversampled 200 MS/s acquisition data)

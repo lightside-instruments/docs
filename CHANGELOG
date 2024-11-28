@@ -1,8 +1,14 @@
-capturing-ethernet-frame-with-scope (1.4) UNRELEASED; urgency=medium
+capturing-ethernet-frame-with-scope (1.5) bookworm; urgency=medium
+
+  * Added pyvisa implementation of the oscilloscope auto acquisition script for Yokogawa dl1540l
+
+ -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Thu, 28 Nov 2024 02:10:18 +0100
+
+capturing-ethernet-frame-with-scope (1.4) bookworm; urgency=medium
 
   * Added photo of the gpib4pi adapter
 
- -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Thu, 27 Jul 2023 16:25:33 +0200
+ -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Thu Jul 27 16:26:52 2023 +0200
 
 capturing-ethernet-frame-with-scope (1.3) bullseye; urgency=medium
 
