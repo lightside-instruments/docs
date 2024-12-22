@@ -1,3 +1,11 @@
+gpib4pi-guide (2.3) bookworm; urgency=medium
+
+  * Updated text with information on passing correct gpiod chip/offset 'gpio_offset' and 'pin_map' gpib_bitbang.ko module params
+  * Added missing apt dependencies installation
+  * Updated filenames from 4.3.5 to 4.3.6
+
+ -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Mon, 23 Dec 2024 00:09:53 +0100
+
 gpib4pi-guide (2.2) bookworm; urgency=medium
 
   * New version 4.3.6-lsi7

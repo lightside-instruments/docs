@@ -11,7 +11,7 @@ However since they did not provide KiCAD design files and BOM for the production
 * Mounting holes for Raspberry Pi Zero form factor control boards
 * Pull-up and pull-down SMD resistors matching the IEEE standard values instead of slightly deviating throug-hole arrays present on the elektromikron board
 * Complete board design and BOM not only schematic published as certified OSHWA UID: NO000003 project
-* The boards purchased after 2024-05-01 have 2x M3.5 thumb screws for fastening the board to GPIB ports added to the package. We had to drill the #40-4 original threaded hole part of the Centronix standard to match the GPIB 3.5 mm non-threaded mounting holes.
+* The boards purchased after 2024-07-01 have 2x M3.5 stainless steel thumb screws for fastening the board to GPIB ports added to the package. We had to drill the #40-4 original threaded hole part of the Centronix standard to match the GPIB 3.5 mm non-threaded mounting holes.
 * There is a stackable 2x20 connector added to the board package that allows connecting the gpib4pi on top of a Raspberry Pi (in addition to Pi Zero that do not need extra offset)
 
 # Installation
@@ -20,33 +20,34 @@ Pi Zero with 32 bit image 2024-10-22-raspios-bookworm-armhf-lite.img.xz was used
 ```
 apt-get -y update
 apt-get -y upgrade
-apt-get -y install git
-git clone -b debian/4.3.5-lsi7 https://github.com/lightside-instruments/gpib-debian.git gpib
-rsync -rav gpib/ gpib_4.3.5
-rm -rf gpib_4.3.5/.git
-rm -rf gpib_4.3.5/debian
-tar -czvf gpib_4.3.5.orig.tar.gz gpib_4.3.5
-rm -rf gpib_4.3.5
+apt-get -y install git rsync
+git clone -b debian/4.3.6-lsi7 https://github.com/lightside-instruments/gpib-debian.git gpib
+rsync -rav gpib/ gpib_4.3.6
+rm -rf gpib_4.3.6/.git
+rm -rf gpib_4.3.6/debian
+tar -czvf gpib_4.3.6.orig.tar.gz gpib_4.3.6
+rm -rf gpib_4.3.6
 
 apt-get -y install devscripts
-apt-get -y install dh-python bison flex doxygen docbook-utils docbook-to-man tcl8.6-dev python3-all-dev
+apt-get -y install dh-python bison flex doxygen docbook-utils docbook-to-man tcl8.6-dev python3-all-dev python3-setuptools debhelper autotools-dev automake
 cd gpib
 debuild -us -uc
 cd ..
 ls -1 *.deb
-#gpib-modules-source_4.3.5-lsi7_all.deb
-#libgpib-bin-dbgsym_4.3.5-lsi7_armhf.deb
-#libgpib-bin_4.3.5-lsi7_armhf.deb
-#libgpib-dev_4.3.5-lsi7_armhf.deb
-#libgpib-doc_4.3.5-lsi7_all.deb
-#libgpib-perl-dbgsym_4.3.5-lsi7_armhf.deb
-#libgpib-perl_4.3.5-lsi7_armhf.deb
-#libgpib0-dbgsym_4.3.5-lsi7_armhf.deb
-#libgpib0_4.3.5-lsi7_armhf.deb
-#libtcl8.6-gpib-dbgsym_4.3.5-lsi7_armhf.deb
-#libtcl8.6-gpib_4.3.5-lsi7_armhf.deb
-#python3-gpib-dbgsym_4.3.5-lsi7_armhf.deb
-#python3-gpib_4.3.5-lsi7_armhf.deb
+#gpib-modules-source_4.3.6-lsi7_all.deb
+#libgpib0_4.3.6-lsi7_armhf.deb
+#libgpib0-dbgsym_4.3.6-lsi7_armhf.deb
+#libgpib-bin_4.3.6-lsi7_armhf.deb
+#libgpib-bin-dbgsym_4.3.6-lsi7_armhf.deb
+#libgpib-dev_4.3.6-lsi7_armhf.deb
+#libgpib-doc_4.3.6-lsi7_all.deb
+#libgpib-perl_4.3.6-lsi7_armhf.deb
+#libgpib-perl-dbgsym_4.3.6-lsi7_armhf.deb
+#libtcl8.6-gpib_4.3.6-lsi7_armhf.deb
+#libtcl8.6-gpib-dbgsym_4.3.6-lsi7_armhf.deb
+#python3-gpib_4.3.6-lsi7_armhf.deb
+#python3-gpib-dbgsym_4.3.6-lsi7_armhf.deb
+
 dpkg -i *.deb
 
 apt-get install module-assistant
@@ -83,8 +84,6 @@ interface {
 	master = yes	/* interface board is system controller */
 }
 
-
-
 device {
 	minor = 0
         name = "digital-oscilloscope-yokogawa-dl1540l"
@@ -119,6 +118,20 @@ device {
 
 This is the corresponding test setup:
 ![Test Setup](test-setup.png)
+
+Before loading the module find the gpio offset (this is a recent change which hopefully will not be necessary):
+
+```
+root@raspberrypi:~# cat /sys/kernel/debug/gpio
+gpiochip0: GPIOs 512-565, parent: platform/20200000.gpio, pinctrl-bcm2835:
+gpio-512 (ID_SDA              )
+gpio-513 (ID_SCL              )
+gpio-514 (GPIO2               )
+gpio-515 (GPIO3               )
+...
+```
+In this case the offset is 512 and you need to pass it as gpio_offset=512 parameter when loading the module.
+
 Now you can load the module and load the configuration:
 
 ```
@@ -126,15 +139,16 @@ modprobe gpib_bitbang
 gpib_config
 ```
 
-* if you are using the older gpib4pi-1.1 board add the board_id kernel module parameter board_id=gpib4pi-1.1 value e.g. modprobe gpib_bitbang board_id=gpib4pi-1.1
+* if you are using the older gpib4pi-1.1 board add the board_id kernel module parameter pin_map=gpib4pi-1.1 value e.g. modprobe gpib_bitbang pin_map=gpib4pi-1.1 gpio_offset=512
 At this point you can either use the ibtest and ibterm standard tools or write your own programs.
+
 # Writing
 [gpibtest.py](gpibtest.py):
 
 ```python
 import gpib
 
-con=gpib.dev(0,1)
+con=gpib.dev(0,3)
 
 gpib.write(con,'A1B23456')
 ```
@@ -156,8 +170,10 @@ Same in C.
 int main() {
     int dev;
 
-    dev=ibdev(0,1,0,T3s,0,0);
+    dev=ibdev(0,3,0,T3s,0,0);
     ibwrt(dev,"A1B23456",8);
+    sleep(1);
+    ibwrt(dev,"B123456",8);
 }
 ```
 
@@ -175,7 +191,7 @@ Here is the script used to produce the video enabling A<->C switch connections f
 import gpib
 import time
 
-con=gpib.dev(0,1)
+con=gpib.dev(0,3)
 
 gpib.write(con,'B123456')
 i=0
@@ -194,6 +210,7 @@ For a more complex example we convert  the Diode characterization example from t
 [diode.py](diode.py):
 
 ```python
+
 import gpib
 import time
 
@@ -313,7 +330,7 @@ def read_waveform(trace) :
         reply=cmd(con, "WAVeform:SEND?\n")
         print(reply)
 
-con=gpib.dev(0,3)
+con=gpib.dev(0,1)
 
 #gpib.write(con, '*RST\n')
 reply=cmd(con, '*IDN?\n')
@@ -344,5 +361,8 @@ read_waveform(4)
 # Other features tested
 Event notification using SRQ events were also tested and work. There was a known problem in earlier versions which are solved in 4.3.6-lsi7 version of the linux-gpib packages.
 
-Network access
+#Network access
 Check the Wireless LAN/GPIB gateway with open-source hardware article if you want to start vxi11 server with this setup and run your testcases on any machine with network connectivity to the board.
+
+#History
+We have made available a git repository (https://github.com/lightside-instruments/docs/tree/gpib4pi-guide) where we maintain a markdown version of this document.
