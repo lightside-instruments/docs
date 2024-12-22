@@ -1,3 +1,9 @@
+gpib4pi-guide (2.4) bookworm; urgency=medium
+
+  * Added proposed heads up info to users to reboot if upgraded kernel is installed but not running before module-assistant is called
+
+ -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Mon, 23 Dec 2024 00:37:24 +0100
+
 gpib4pi-guide (2.3) bookworm; urgency=medium
 
   * Updated text with information on passing correct gpiod chip/offset 'gpio_offset' and 'pin_map' gpib_bitbang.ko module params

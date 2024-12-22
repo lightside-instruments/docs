@@ -20,6 +20,9 @@ Pi Zero with 32 bit image 2024-10-22-raspios-bookworm-armhf-lite.img.xz was used
 ```
 apt-get -y update
 apt-get -y upgrade
+```
+You might want to restart your device here if the upgrade installed a new kernel version so that it runs this version. This only matters for the last command calling module-assistant to rebuild the modules.
+```
 apt-get -y install git rsync
 git clone -b debian/4.3.6-lsi7 https://github.com/lightside-instruments/gpib-debian.git gpib
 rsync -rav gpib/ gpib_4.3.6
