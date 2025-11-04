@@ -3,6 +3,9 @@ We will share our experience with the process of design and production of networ
 Both the DUT (OSHWA NO000005) and the SFP to SMA coaxial breakout module (OSHWA NO000009) used are opensource-hardware KiCAD designs published by us with the intent to serve as request for comment and reference designs that can be modified and improved by the SI community.
 
 ## Getting started
+sudo apt-get install -f ngscopeclient-0.1.0+v0.1-29-g4e55b733-Linux.deb
+sudo apt install libyaml-cpp-dev libglfw3-dev
+
 * https://github.com/ngscopeclient/scopehal-testdata
 * https://www.youtube.com/watch?v=SysecTECvBI
 * https://www.youtube.com/watch?v=UQKZS4z8P-w&t=1852s - Beyond Scope. What else can R&S MXO4 do with Open Source Hard- & Software? 
