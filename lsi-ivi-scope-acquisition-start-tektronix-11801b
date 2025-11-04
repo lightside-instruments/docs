@@ -1,0 +1,87 @@
+#!/usr/bin/python3
+
+# Usage: ./lsi-ivi-scope-acquisition-start-tektronix-11801b <sample-rate> <samples> <trigger-source> <trigger-slope> <trigger-level> <ch1-name> <ch1-range> <ch1-params> ... <chN-name> <chN-range> <chN-params>
+
+# Example: ./lsi-ivi-scope-acquisition-start-tektronix-11801b 1000000000000.000000000 1000000 tr0 positive 0.400000000 ch1 2.000000000 0.0  ch2 2.000000000 0.0
+
+global args
+args=None
+
+import sys
+import time
+import sys
+import os
+import datetime
+import vxi11
+
+instr = vxi11.vxi11.Instrument("TCPIP::10.13.37.114::gpib,12::INSTR")
+
+# Tektronix 11801B Digital Sampling Oscilloscope 070-8783-01
+
+
+#instr.write("*IDN?")
+
+samples=2000000
+
+sample_rate=float(sys.argv[1])
+samples=int(sys.argv[2])
+trigger_source=sys.argv[3]
+trigger_slope=sys.argv[4]
+trigger_level=float(sys.argv[5])
+
+#print(instr.read())
+
+con = instr
+
+def cmd_binary(instr, cmd):
+        instr.write(cmd)
+        c = instr.read_raw(4*1024*1024)
+        return c
+
+def cmd(instr, cmd):
+        result = ""
+        instr.write(cmd)
+        c = instr.read(4*1024*1024)
+        result=c
+        #result=c.decode("utf-8")
+        return result
+
+
+con.write('INIT\n')
+
+con.write('DEBUG GPIB:0N\n')
+
+reply=cmd(con, 'UPTIME?\n')
+print (reply)
+reply=cmd(con, 'ACQNum?\n')
+print (reply)
+reply=cmd(con, 'CH?\n')
+print (reply)
+reply=cmd(con, 'ID?\n')
+print (reply)
+reply=cmd(con, 'UID?\n')
+print (reply)
+reply=cmd(con, 'STONum?\n')
+print (reply)
+reply=cmd(con, 'TRIGGER?\n')
+print (reply)
+con.write('SEL TRA1')
+
+con.write("TRACE1 DESCR:'M1-M2'\n")
+#con.write("TRIGGER SOURCE:EXTERNAL,LEVEL:0.4\n")
+con.write("TRIGGER MODE:NORMAL,STATUS:TRG,ATTENUATION:X1,SOURCE:EXTERNAL,LEVEL:4.7E-2,EXTCOUPLING:AC,HIFREQ:OFF,ENHANCED:OFF,HOLDOFF:5.0E-6,HMODE:AUTO,SLOPE:PLUS\n")
+
+con.write("TBMAIN TIME:10E-9;MATNPOS 30E-9;CHM1 SENSI:0.2,OFFSET:0\n")
+#con.write("NWAVfrm 1024\n")
+con.write("AUTOSET START\n")
+reply=cmd(con, 'TBMAIN?\n')
+reply=cmd(con, 'TRIGGER?\n')
+print (reply)
+
+#con.write('ACQ RUN\n')
+#time.sleep(5)
+#con.write('ACQ STOP\n')
+#con.write("TEX X:1,Y:10,STRING:'http://lightside-instruments.com'\n")
+#sys.exit(0)
+
+print("Started ...")

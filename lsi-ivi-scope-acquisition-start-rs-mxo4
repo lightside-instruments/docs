@@ -1,0 +1,125 @@
+#!/usr/bin/python3
+
+# Usage: ./lsi-ivi-scope-acquisition-start-rs-mxo4 <sample-rate> <samples> <trigger-source> <trigger-slope> <trigger-level> <ch1-name> <ch1-range> <ch1-params> ... <chN-name> <chN-range> <chN-params>
+
+# Example: ./lsi-ivi-scope-acquisition-start-rs-mxo4 5000000000.000000000 800000000 ch1 positive 0.400000000 ch1 4.000000000 0.0
+
+global args
+args=None
+
+import sys
+import time
+import sys
+import os
+import datetime
+import vxi11
+
+instr = vxi11.vxi11.Instrument("TCPIP::10.0.0.3::inst0::INSTR")
+
+# Communication interface User's Manual https://scdn.rohde-schwarz.com/ur/pws/dl_downloads/pdm/cl_manuals/user_manual/1335_5337_01/MXO4_UserManual_en_11.pdf
+
+
+#instr.write("*IDN?")
+
+samples=2000000
+
+sample_rate=float(sys.argv[1])
+samples=int(sys.argv[2])
+trigger_source=sys.argv[3]
+trigger_slope=sys.argv[4]
+trigger_level=float(sys.argv[5])
+
+#print(instr.read())
+
+con = instr
+
+def cmd_binary(instr, cmd):
+        instr.write(cmd)
+        c = instr.read_raw(4*1024*1024)
+        return c
+
+def cmd(instr, cmd):
+        result = ""
+        instr.write(cmd)
+        c = instr.read(4*1024*1024)
+        result=c
+        #result=c.decode("utf-8")
+        return result
+
+def setup_channel(channel, voltage_range):
+        reply=cmd(con, ':CHANnel'+str(channel)+'?\n')
+        print (reply)
+        con.write('CHAN'+str(channel)+':RANGe %f\n'%(voltage_range))
+        con.write('CHAN'+str(channel)+':COUPling DC\n')
+        con.write('CHAN'+str(channel)+':IMPedance %f\n'%(50))
+        con.write('CHAN'+str(channel)+':STATe ON\n')
+
+
+def disable_channel(channel):
+        reply=cmd(con, ':CHANnel'+str(channel)+'?\n')
+        print (reply)
+        con.write(':CHAN'+str(channel)+':STATe OFF\n')
+
+
+con.write('*RST\n')
+
+reply=cmd(con, '*IDN?')
+print (reply)
+
+
+# datetime object containing current date and time
+now = datetime.datetime.now()
+date_string = now.strftime("%Y/%m/%d")
+time_string = now.strftime("%H:%M:%S")
+
+#print(date_string)
+#print(time_string)
+#con.write('SYSTem:CLOCk:TIME "%s"\n'%(time_string))
+
+print(':TIM:SCAL %f\n'%((float(samples)/10)/sample_rate))
+con.write(':TIM:SCAL %f\n'%((float(samples)/10)/sample_rate))
+
+disable_channel(1)
+disable_channel(2)
+disable_channel(3)
+disable_channel(4)
+
+channels_num = int((len(sys.argv)-6)/3)
+print (channels_num)
+for i in range(0,channels_num):
+    name=sys.argv[6+i*3]
+    voltage_range=float(sys.argv[6+i*3+1])
+    params=sys.argv[6+i*3+2]
+
+    setup_channel(int(name[2:]),voltage_range)
+
+
+if(trigger_source != "-"):
+    con.write('TRIGger:EVENt:SOURce C%d\n'%(int(trigger_source[2:])))
+    con.write('TRIGger:EVENt:LEVel%d:VALue %f\n'%(int(trigger_source[2:]), trigger_level))
+
+
+    if (trigger_slope=='negative'):
+        slope_str='NEGative'
+    else:
+        slope_str='POSitive'
+    con.write('TRIGger:EVENt:EDGE:SLOPe %s\n'%(slope_str))
+
+con.write('ACQuire:POINts:MODE MANUAL\n')
+con.write('ACQuire:POINts:MAXimum 800E+6\n')
+con.write('ACQuire:POINts:VALue %d\n'%(samples))
+con.write('ACQuire:SRATe:MODE MANual\n')
+
+reply=cmd(con, 'ACQuire:POINts:ARATe?\n')
+print (reply)
+
+#starts acquisition of a single waveform
+con.write('ACQuire:COUNt 1\n')
+
+print("Started ...")
+
+#while(1):
+#    reply=cmd(con, 'ACQuire:AVAilable?\n')
+#    print (reply)
+#    time.sleep(1)
+
