@@ -9,7 +9,10 @@ Both the DUT (OSHWA NO000005) and the SFP to SMA coaxial breakout module (OSHWA 
 
 # Setup
 
- yangcli> create /interfaces/interface[name='eth1']/traffic-generator -- interframe-gap=20 frame-data=6CA96F0000026CA96F00000108004500002ED4A500000A115816C0000201C0000202C0200007001A00000102030405060708090A0B0C0D0E0F1011126EECF305 frame-size=64
+ yangcli user@192.168.4.139> create /interfaces/interface[name='eth1']/traffic-generator -- interframe-gap=96 frame-data=6CA96F0000026CA96F00000108004500002ED4A500000A115816C0000201C0000202C0200007001A00000102030405060708090A0B0C0D0E0F1011126EECF305 frame-size=64
+ yangcli user@192.168.4.139> merge /interfaces/interface[name='eth1'] -- type=ethernetCsmacd
+ yangcli user@192.168.4.139> commit
+ 
 # Acquisition
 * https://github.com/lightside-instruments/yuma123-netconfd-module/tree/lsi-ivi-scope-test-measurements-spark/measurements/spark-sfp-acquisition
 to capture 64 octets frame and 20 octets interframe gap (includes 7+1 preamble octets)
