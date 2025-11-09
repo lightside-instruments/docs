@@ -1,3 +1,9 @@
+docs-wireless-lan-gpib-gateway-with-open-source-hardware (1.1) trixie; urgency=medium
+
+  * Added installation of python3-standard-xdrlib since xdrlib is removed from python3 standard library
+
+ -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Sun, 09 Nov 2025 18:30:52 +0100
+
 docs-wireless-lan-gpib-gateway-with-open-source-hardware (1.0) bullseye; urgency=medium
 
   * Initial release

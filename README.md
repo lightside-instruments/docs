@@ -32,6 +32,7 @@ At this point your GPIB adapter and linux-gpib stack should be operational and w
 sudo apt-get install rpcbind
 sudo systemctl start rpcbind
 sudo systemctl enable rpcbind
+sudo apt-get install python3-standard-xdrlib
 git clone https://github.com/coburnw/python-vxi11-server.git
 git clone https://git.loetlabor-jena.de/thasti/tcpip2instr.git
 cd tcpip2instr
