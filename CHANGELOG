@@ -1,3 +1,9 @@
+gpib4pi-guide (2.5) trixie; urgency=medium
+
+  * Update for trixie with 4.3.6-lsi8 version of the debian package
+
+ -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Sun, 09 Nov 2025 17:05:14 +0100
+
 gpib4pi-guide (2.4) bookworm; urgency=medium
 
   * Added proposed heads up info to users to reboot if upgraded kernel is installed but not running before module-assistant is called

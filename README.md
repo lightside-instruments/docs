@@ -15,7 +15,7 @@ However since they did not provide KiCAD design files and BOM for the production
 * There is a stackable 2x20 connector added to the board package that allows connecting the gpib4pi on top of a Raspberry Pi (in addition to Pi Zero that do not need extra offset)
 
 # Installation
-Pi Zero with 32 bit image 2024-10-22-raspios-bookworm-armhf-lite.img.xz was used but the 64 bit image for Pi4 and Pi5 also works. Configure internet connectivity. Follow these steps (N.B. if you are using version older than bookworm use 4.3.5-lsi4 instead of 4.3.6-lsi7):
+Raspberry Pi5 with 64 bit image https://downloads.raspberrypi.com/raspios_lite_arm64/images/raspios_lite_arm64-2025-10-02/2025-10-01-raspios-trixie-arm64-lite.img.xz was used but other Pi variants e.g. Pi Zero should also work. Configure internet connectivity. Follow these steps (N.B. if you are using version older than bookworm use 4.3.5-lsi4 instead of 4.3.6-lsi8):
 
 ```
 apt-get -y update
@@ -24,7 +24,7 @@ apt-get -y upgrade
 You might want to restart your device here if the upgrade installed a new kernel version so that it runs this version. This only matters for the last command calling module-assistant to rebuild the modules.
 ```
 apt-get -y install git rsync
-git clone -b debian/4.3.6-lsi7 https://github.com/lightside-instruments/gpib-debian.git gpib
+git clone -b debian/4.3.6-lsi8 https://github.com/lightside-instruments/gpib-debian.git gpib
 rsync -rav gpib/ gpib_4.3.6
 rm -rf gpib_4.3.6/.git
 rm -rf gpib_4.3.6/debian
@@ -37,24 +37,21 @@ cd gpib
 debuild -us -uc
 cd ..
 ls -1 *.deb
-#gpib-modules-source_4.3.6-lsi7_all.deb
-#libgpib0_4.3.6-lsi7_armhf.deb
-#libgpib0-dbgsym_4.3.6-lsi7_armhf.deb
-#libgpib-bin_4.3.6-lsi7_armhf.deb
-#libgpib-bin-dbgsym_4.3.6-lsi7_armhf.deb
-#libgpib-dev_4.3.6-lsi7_armhf.deb
-#libgpib-doc_4.3.6-lsi7_all.deb
-#libgpib-perl_4.3.6-lsi7_armhf.deb
-#libgpib-perl-dbgsym_4.3.6-lsi7_armhf.deb
-#libtcl8.6-gpib_4.3.6-lsi7_armhf.deb
-#libtcl8.6-gpib-dbgsym_4.3.6-lsi7_armhf.deb
-#python3-gpib_4.3.6-lsi7_armhf.deb
-#python3-gpib-dbgsym_4.3.6-lsi7_armhf.deb
+#gpib-modules-source_4.3.6-lsi8_all.deb
+#libgpib0_4.3.6-lsi8_armhf.deb
+#libgpib0-dbgsym_4.3.6-lsi8_armhf.deb
+#libgpib-bin_4.3.6-lsi8_armhf.deb
+#libgpib-bin-dbgsym_4.3.6-lsi8_armhf.deb
+#libgpib-dev_4.3.6-lsi8_armhf.deb
+#libgpib-doc_4.3.6-lsi8_all.deb
+#libgpib-perl_4.3.6-lsi8_armhf.deb
+#libgpib-perl-dbgsym_4.3.6-lsi8_armhf.deb
+#python3-gpib_4.3.6-lsi8_armhf.deb
+#python3-gpib-dbgsym_4.3.6-lsi8_armhf.deb
 
 dpkg -i *.deb
 
 apt-get install module-assistant
-apt-get install raspberrypi-kernel-headers
 
 module-assistant auto-install gpib-modules-source
 ```
@@ -126,19 +123,22 @@ Before loading the module find the gpio offset (this is a recent change which ho
 
 ```
 root@raspberrypi:~# cat /sys/kernel/debug/gpio
-gpiochip0: GPIOs 512-565, parent: platform/20200000.gpio, pinctrl-bcm2835:
-gpio-512 (ID_SDA              )
-gpio-513 (ID_SCL              )
-gpio-514 (GPIO2               )
-gpio-515 (GPIO3               )
+...
+gpiochip0: GPIOs 571-624, parent: platform/1f000d0000.gpio, pinctrl-rp1:
+ gpio-571 (ID_SDA              )
+ gpio-572 (ID_SCL              )
+ gpio-573 (GPIO2               )
+ gpio-574 (GPIO3               )
+ gpio-575 (GPIO4               |gpib                ) in  hi 
+ gpio-576 (GPIO5               |gpib                ) out hi
 ...
 ```
-In this case the offset is 512 and you need to pass it as gpio_offset=512 parameter when loading the module.
+In this case the offset is 571 and you need to pass it as gpio_offset=571 parameter when loading the module.
 
 Now you can load the module and load the configuration:
 
 ```
-modprobe gpib_bitbang
+modprobe gpib_bitbang gpio_offset=571
 gpib_config
 ```
 
