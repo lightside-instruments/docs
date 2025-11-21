@@ -1,6 +1,6 @@
 https://www.hackster.io/lightside-instruments/wireless-lan-gpib-gateway-with-open-source-hardware-6e0af8
 
 apt install python3-pyvisa
-python3 -m venv .
-bin/pip install py-xdrlib python-vxi11
-bin/python lsi-ivi-scope-acquisition-start-tektronix-11801b 1000000000000.000000000 1000000 tr0 positive 0.400000000 ch1 2.000000000 0.0  ch2 2.000000000 0.0
+python3 -m venv pve
+pve/bin/pip install py-xdrlib python-vxi11
+pve/bin/python lsi-ivi-scope-acquisition-start-tektronix-11801b 1000000000000.000000000 1000000 tr0 positive 0.400000000 ch1 2.000000000 0.0  ch2 2.000000000 0.0
