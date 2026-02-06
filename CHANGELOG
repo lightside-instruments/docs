@@ -1,5 +1,5 @@
-docs-template (1.0) bullseye; urgency=medium
+docs-single-board-computer-with-softcore-fpga-implementation (1.0) noble; urgency=medium
 
-  * Initial release.
+  * Initial release
 
- -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Tue, 02 May 2023 17:34:31 +0200
+ -- Vladimir Vassilev <vladimir@lightside-instruments.com>  Thu, 05 Feb 2026 22:47:46 +0100
