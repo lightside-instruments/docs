@@ -1,0 +1,48 @@
+vladimir@lsi:~/lsi/code/docs-benchmarking-videocards$ glmark2
+=======================================================
+    glmark2 2023.01
+=======================================================
+    OpenGL Information
+    GL_VENDOR:      Intel
+    GL_RENDERER:    Mesa Intel(R) UHD Graphics 630 (CFL GT2)
+    GL_VERSION:     4.6 (Compatibility Profile) Mesa 25.0.7-2+deb13u1
+    Surface Config: buf=32 r=8 g=8 b=8 a=8 depth=24 stencil=0 samples=0
+    Surface Size:   800x600 windowed
+=======================================================
+[build] use-vbo=false: FPS: 2807 FrameTime: 0.356 ms
+[build] use-vbo=true: FPS: 2980 FrameTime: 0.336 ms
+[texture] texture-filter=nearest: FPS: 2808 FrameTime: 0.356 ms
+[texture] texture-filter=linear: FPS: 2806 FrameTime: 0.356 ms
+[texture] texture-filter=mipmap: FPS: 2827 FrameTime: 0.354 ms
+[shading] shading=gouraud: FPS: 2595 FrameTime: 0.385 ms
+[shading] shading=blinn-phong-inf: FPS: 2633 FrameTime: 0.380 ms
+[shading] shading=phong: FPS: 2515 FrameTime: 0.398 ms
+[shading] shading=cel: FPS: 2471 FrameTime: 0.405 ms
+[bump] bump-render=high-poly: FPS: 2052 FrameTime: 0.488 ms
+[bump] bump-render=normals: FPS: 3018 FrameTime: 0.331 ms
+[bump] bump-render=height: FPS: 2863 FrameTime: 0.349 ms
+[effect2d] kernel=0,1,0;1,-4,1;0,1,0;: FPS: 1900 FrameTime: 0.527 ms
+[effect2d] kernel=1,1,1,1,1;1,1,1,1,1;1,1,1,1,1;: FPS: 1062 FrameTime: 0.942 ms
+[pulsar] light=false:quads=5:texture=false: FPS: 2579 FrameTime: 0.388 ms
+[desktop] blur-radius=5:effect=blur:passes=1:separable=true:windows=4: FPS: 1090 FrameTime: 0.918 ms
+[desktop] effect=shadow:windows=4: FPS: 1876 FrameTime: 0.533 ms
+[buffer] columns=200:interleave=false:update-dispersion=0.9:update-fraction=0.5:update-method=map: FPS: 752 FrameTime: 1.330 ms
+[buffer] columns=200:interleave=false:update-dispersion=0.9:update-fraction=0.5:update-method=subdata: FPS: 999 FrameTime: 1.002 ms
+[buffer] columns=200:interleave=true:update-dispersion=0.9:update-fraction=0.5:update-method=map: FPS: 1126 FrameTime: 0.888 ms
+[ideas] speed=duration: FPS: 2341 FrameTime: 0.427 ms
+[jellyfish] <default>: FPS: 1809 FrameTime: 0.553 ms
+[terrain] <default>: FPS: 254 FrameTime: 3.939 ms
+[shadow] <default>: FPS: 2109 FrameTime: 0.474 ms
+[refract] <default>: FPS: 530 FrameTime: 1.887 ms
+[conditionals] fragment-steps=0:vertex-steps=0: FPS: 2449 FrameTime: 0.408 ms
+[conditionals] fragment-steps=5:vertex-steps=0: FPS: 2445 FrameTime: 0.409 ms
+[conditionals] fragment-steps=0:vertex-steps=5: FPS: 2438 FrameTime: 0.410 ms
+[function] fragment-complexity=low:fragment-steps=5: FPS: 2451 FrameTime: 0.408 ms
+[function] fragment-complexity=medium:fragment-steps=5: FPS: 2468 FrameTime: 0.405 ms
+[loop] fragment-loop=false:fragment-steps=5:vertex-steps=5: FPS: 2459 FrameTime: 0.407 ms
+[loop] fragment-steps=5:fragment-uniform=false:vertex-steps=5: FPS: 2430 FrameTime: 0.412 ms
+[loop] fragment-steps=5:fragment-uniform=true:vertex-steps=5: FPS: 2452 FrameTime: 0.408 ms
+=======================================================
+                                  glmark2 Score: 2132 
+=======================================================
+vladimir@lsi:~/lsi/code/docs-benchmarking-videocards$

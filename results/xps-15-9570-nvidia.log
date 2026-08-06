@@ -1,0 +1,48 @@
+vladimir@lsi:~/lsi/code/docs-benchmarking-videocards$ __NV_PRIME_RENDER_OFFLOAD=1 __GLX_VENDOR_LIBRARY_NAME=nvidia glmark2
+=======================================================
+    glmark2 2023.01
+=======================================================
+    OpenGL Information
+    GL_VENDOR:      NVIDIA Corporation
+    GL_RENDERER:    NVIDIA GeForce GTX 1050 Ti with Max-Q Design/PCIe/SSE2
+    GL_VERSION:     4.6.0 NVIDIA 550.163.01
+    Surface Config: buf=32 r=8 g=8 b=8 a=8 depth=24 stencil=0 samples=0
+    Surface Size:   800x600 windowed
+=======================================================
+[build] use-vbo=false: FPS: 4008 FrameTime: 0.250 ms
+[build] use-vbo=true: FPS: 4262 FrameTime: 0.235 ms
+[texture] texture-filter=nearest: FPS: 4466 FrameTime: 0.224 ms
+[texture] texture-filter=linear: FPS: 4759 FrameTime: 0.210 ms
+[texture] texture-filter=mipmap: FPS: 4757 FrameTime: 0.210 ms
+[shading] shading=gouraud: FPS: 4843 FrameTime: 0.207 ms
+[shading] shading=blinn-phong-inf: FPS: 4705 FrameTime: 0.213 ms
+[shading] shading=phong: FPS: 4580 FrameTime: 0.218 ms
+[shading] shading=cel: FPS: 4247 FrameTime: 0.235 ms
+[bump] bump-render=high-poly: FPS: 4033 FrameTime: 0.248 ms
+[bump] bump-render=normals: FPS: 4798 FrameTime: 0.208 ms
+[bump] bump-render=height: FPS: 4599 FrameTime: 0.217 ms
+[effect2d] kernel=0,1,0;1,-4,1;0,1,0;: FPS: 4441 FrameTime: 0.225 ms
+[effect2d] kernel=1,1,1,1,1;1,1,1,1,1;1,1,1,1,1;: FPS: 3240 FrameTime: 0.309 ms
+[pulsar] light=false:quads=5:texture=false: FPS: 4633 FrameTime: 0.216 ms
+[desktop] blur-radius=5:effect=blur:passes=1:separable=true:windows=4: FPS: 2668 FrameTime: 0.375 ms
+[desktop] effect=shadow:windows=4: FPS: 3864 FrameTime: 0.259 ms
+[buffer] columns=200:interleave=false:update-dispersion=0.9:update-fraction=0.5:update-method=map: FPS: 909 FrameTime: 1.101 ms
+[buffer] columns=200:interleave=false:update-dispersion=0.9:update-fraction=0.5:update-method=subdata: FPS: 1017 FrameTime: 0.984 ms
+[buffer] columns=200:interleave=true:update-dispersion=0.9:update-fraction=0.5:update-method=map: FPS: 1217 FrameTime: 0.822 ms
+[ideas] speed=duration: FPS: 4191 FrameTime: 0.239 ms
+[jellyfish] <default>: FPS: 3832 FrameTime: 0.261 ms
+[terrain] <default>: FPS: 732 FrameTime: 1.366 ms
+[shadow] <default>: FPS: 3952 FrameTime: 0.253 ms
+[refract] <default>: FPS: 1506 FrameTime: 0.664 ms
+[conditionals] fragment-steps=0:vertex-steps=0: FPS: 4681 FrameTime: 0.214 ms
+[conditionals] fragment-steps=5:vertex-steps=0: FPS: 4510 FrameTime: 0.222 ms
+[conditionals] fragment-steps=0:vertex-steps=5: FPS: 4791 FrameTime: 0.209 ms
+[function] fragment-complexity=low:fragment-steps=5: FPS: 4744 FrameTime: 0.211 ms
+[function] fragment-complexity=medium:fragment-steps=5: FPS: 4383 FrameTime: 0.228 ms
+[loop] fragment-loop=false:fragment-steps=5:vertex-steps=5: FPS: 4582 FrameTime: 0.218 ms
+[loop] fragment-steps=5:fragment-uniform=false:vertex-steps=5: FPS: 4461 FrameTime: 0.224 ms
+[loop] fragment-steps=5:fragment-uniform=true:vertex-steps=5: FPS: 4574 FrameTime: 0.219 ms
+=======================================================
+                                  glmark2 Score: 3847 
+=======================================================
+vladimir@lsi:~/lsi/code/docs-benchmarking-videocards$
